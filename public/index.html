@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello DC</h1>
+    <script src ="https://cdnjs.cloudflare.com/ajax/libs/axios/0.9.1/axios.js"></script>
+    <script>
+        // We can use this data in our client side normally. Just showing use of axios
+        axios('https://swapi.dev/api/planets').then(({data}) => {
+            const {results} = data;
+            console.log(results)
+        })
+    </script>
+</body>
+</html>
