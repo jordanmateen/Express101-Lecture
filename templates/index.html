@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${title}</title>
+    <title>Document</title>
+    ${bootstrap}
 </head>
 <body>
-    <h1>${title}</h1>
-    <div>${description}</div>
+    <h1>Planets</h1>
+    <ul>
+        ${planets.map(planet => {
+         return `<a href='/starWars/${planet.name}'><li>${planet.name}</li></a>`
+        }).join('')}
+    </ul>
 </body>
 </html>
