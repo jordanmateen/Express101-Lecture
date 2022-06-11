@@ -1,6 +1,6 @@
 // Requiring libraries and setting constants. 
 const express = require('express');
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 const es6Renderer = require('express-es6-template-engine');
 const swPlanets = require('./starWarsData');
 const app = express();
@@ -16,8 +16,10 @@ app.use((req, res, next)=>{
 app.use(express.static(__dirname + '/public'));
 
 // Middleware parsing the url and  body of the request.
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+app.use(express.urlencoded());
+app.use(express.json());
 
 // express-es6-template-engine set up
 app.engine('html', es6Renderer); // Registers HTML as the engine (this is what type of view will be rendering. )
@@ -33,7 +35,8 @@ app.get('/starWars', (req, res)=>{
             planets: swPlanets
         },
         partials: {
-            bootstrap: './templates/partials/bootstrap.html'
+            bootstrap: './templates/partials/bootstrap.html',
+            navbar: './templates/partials/nav.html'
         }
     });
 })
@@ -56,7 +59,8 @@ app.get('/starWars/:name', (req, res)=>{
                 planet: planet1
             },
             partials: {
-                bootstrap: './templates/partials/bootstrap.html'
+                bootstrap: './templates/partials/bootstrap.html',
+                navbar: './templates/partials/nav.html'
             }
         })
     }else{
