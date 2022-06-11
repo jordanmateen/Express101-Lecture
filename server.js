@@ -1,6 +1,8 @@
+// Requiring libraries and setting constants. 
 const express = require('express');
 const bodyParser = require("body-parser");
 const es6Renderer = require('express-es6-template-engine');
+const swPlanets = require('./starWarsData');
 const app = express();
 const PORT = 3000;
 
@@ -16,29 +18,44 @@ app.engine('html', es6Renderer); // Registers HTML as the engine (this is what t
 app.set('views', 'templates'); // The templates folder is where our "views" will be located. 
 app.set('view engine', 'html'); // the engine we set up on line 15 will be used here. 
 
-// get route, home route (this page will be served using line 8)
-app.get('/', (req, res)=>{
-    res.send('Hello World, How are you today?');
-})
 
-// get route, home route using es6 template  (this page will be served using the es 6 temolate setup line 15-17)
-app.get('/home', (req, res)=>{
-    res.render('home', {
+// ES6 template data is being passed into the html templates via the locals and partials objects
+// The locals object carries the data. The partials object is your styling
+app.get('/starWars', (req, res)=>{
+    res.render('index',{
         locals: {
-            title: "Home Page",
-            description: "A blank canvas depicts a white rabbit in a snowstorm. Now that's art!!!"
+            planets: swPlanets
+        },
+        partials: {
+            bootstrap: './templates/partials/bootstrap.html'
         }
     });
 })
 
-//get route
-app.get('/data', (req, res)=>{
-    res.send({data: 'data'})
+// getting all the data fro references. 
+app.get('/starWarsAll', (req, res)=>{
+    res.send(swPlanets);
 })
 
-// post route
-app.post('/post', (req, res)=> {
-    res.json(req.body)
+// This route utilizes a parameter denoted by the :param syntax. 
+// This parameters value will be located in the req.params object on the request.
+// ex: starWars/Tatooine --> req.params = Tatooine
+app.get('/starWars/:name', (req, res)=>{
+    const {name} = req.params
+
+    const planet1 = swPlanets.find(planet => planet.name === name)
+    if(planet1){
+        res.render('planet',{
+            locals: {
+                planet: planet1
+            },
+            partials: {
+                bootstrap: './templates/partials/bootstrap.html'
+            }
+        })
+    }else{
+        res.send(`Planet does not exist in collection: ${name}`)
+    }
 })
 
 // app listens on port 3000 and responds with feedback
