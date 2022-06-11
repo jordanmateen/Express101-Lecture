@@ -1,7 +1,7 @@
 // Requiring libraries and setting constants. 
 const express = require('express');
+const path = require('path');
 const bodyParser = require("body-parser");
-const es6Renderer = require('express-es6-template-engine');
 const swPlanets = require('./starWarsData');
 const app = express();
 const PORT = 3000;
@@ -13,23 +13,14 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// express-es6-template-engine set up
-app.engine('html', es6Renderer); // Registers HTML as the engine (this is what type of view will be rendering. )
-app.set('views', 'templates'); // The templates folder is where our "views" will be located. 
-app.set('view engine', 'html'); // the engine we set up on line 15 will be used here. 
+// ejs views set up
+app.set('views', path.join(__dirname, 'templates')); // The templates folder is where our "views" will be located. 
+app.set('view engine', 'ejs'); // the engine we set up on line 15 will be used here. 
 
 
-// ES6 template data is being passed into the html templates via the locals and partials objects
-// The locals object carries the data. The partials object is your styling
+
 app.get('/starWars', (req, res)=>{
-    res.render('index',{
-        locals: {
-            planets: swPlanets
-        },
-        partials: {
-            bootstrap: './templates/partials/bootstrap.html'
-        }
-    });
+    res.render('pages/index', { planets: swPlanets });
 })
 
 // getting all the data fro references. 
