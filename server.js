@@ -1,3 +1,4 @@
+// Requiring libraries and setting constants. 
 const express = require('express');
 const bodyParser = require("body-parser");
 const es6Renderer = require('express-es6-template-engine');
@@ -31,10 +32,14 @@ app.get('/starWars', (req, res)=>{
     });
 })
 
+// getting all the data fro references. 
 app.get('/starWarsAll', (req, res)=>{
     res.send(swPlanets);
 })
 
+// This route utilizes a parameter denoted by the :param syntax. 
+// This parameters value will be located in the req.params object on the request.
+// ex: starWars/Tatooine --> req.params = Tatooine
 app.get('/starWars/:name', (req, res)=>{
     const {name} = req.params
 
