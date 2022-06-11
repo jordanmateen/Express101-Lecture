@@ -6,10 +6,16 @@ const swPlanets = require('./starWarsData');
 const app = express();
 const PORT = 3000;
 
+// Custom middleware. This will execute after every request. 
+// if you do not include the next function here the request will hang. 
+app.use((req, res, next)=>{
+    console.log(`request made in ${req.path}`)
+    next()
+})
 // serve files in the static folder of local host 3000
 app.use(express.static(__dirname + '/public'));
 
-// Middleware parsing the body of the request.
+// Middleware parsing the url and  body of the request.
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
