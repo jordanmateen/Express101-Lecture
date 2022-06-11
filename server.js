@@ -26,7 +26,7 @@ app.set('view engine', 'html'); // the engine we set up on line 15 will be used 
 
 
 // ES6 template data is being passed into the html templates via the locals and partials objects
-// The locals object carries the data. The partials object is your styling
+// The locals object carries the data. The partials object is your styling (in this example)
 app.get('/starWars', (req, res)=>{
     res.render('index',{
         locals: {
