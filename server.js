@@ -36,14 +36,7 @@ app.get('/starWars/:name', (req, res)=>{
 
     const planet1 = swPlanets.find(planet => planet.name === name)
     if(planet1){
-        res.render('planet',{
-            locals: {
-                planet: planet1
-            },
-            partials: {
-                bootstrap: './templates/partials/bootstrap.html'
-            }
-        })
+        res.render('pages/planet',{ planet: planet1})
     }else{
         res.send(`Planet does not exist in collection: ${name}`)
     }
@@ -53,3 +46,4 @@ app.get('/starWars/:name', (req, res)=>{
 app.listen(PORT, ()=> {
     console.log(`Server listening on port ${PORT}`)
 })
+
