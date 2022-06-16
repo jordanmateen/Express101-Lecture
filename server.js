@@ -1,17 +1,25 @@
 // Requiring libraries and setting constants. 
 const express = require('express');
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 const es6Renderer = require('express-es6-template-engine');
 const swPlanets = require('./starWarsData');
 const app = express();
 const PORT = 3000;
 
+// Custom middleware. This will execute after every request. 
+// if you do not include the next function here the request will hang. 
+app.use((req, res, next)=>{
+    console.log(`request made in ${req.path}`)
+    next()
+})
 // serve files in the static folder of local host 3000
 app.use(express.static(__dirname + '/public'));
 
-// Middleware parsing the body of the request.
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// Middleware parsing the url and  body of the request.
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+app.use(express.urlencoded());
+app.use(express.json());
 
 // express-es6-template-engine set up
 app.engine('html', es6Renderer); // Registers HTML as the engine (this is what type of view will be rendering. )
@@ -20,14 +28,15 @@ app.set('view engine', 'html'); // the engine we set up on line 15 will be used 
 
 
 // ES6 template data is being passed into the html templates via the locals and partials objects
-// The locals object carries the data. The partials object is your styling
+// The locals object carries the data. The partials object is your styling (in this example)
 app.get('/starWars', (req, res)=>{
     res.render('index',{
         locals: {
             planets: swPlanets
         },
         partials: {
-            bootstrap: './templates/partials/bootstrap.html'
+            bootstrap: './templates/partials/bootstrap.html',
+            navbar: './templates/partials/nav.html'
         }
     });
 })
@@ -50,7 +59,8 @@ app.get('/starWars/:name', (req, res)=>{
                 planet: planet1
             },
             partials: {
-                bootstrap: './templates/partials/bootstrap.html'
+                bootstrap: './templates/partials/bootstrap.html',
+                navbar: './templates/partials/nav.html'
             }
         })
     }else{
